@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     public float checkRadius;
     public LayerMask WhatisGround;
 
+    public int extraJumpValue;
+    private int extraJump;
+    private float gravity;
 
 
     private bool rightDir = true; 
@@ -25,16 +28,24 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gravity = rb.gravityScale;
     }
 
     private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.velocity = Vector2.up * jumpForce;
+        }
+        if (rb.velocity.y < 0)
+            rb.gravityScale = gravity * 1.5f;
+        else
+            rb.gravityScale = gravity;
     }
 
     private void FixedUpdate()
     {
-        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, WhatisGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, WhatisGround);
 
         moveInput = Input.GetAxis("Horizontal");
 
