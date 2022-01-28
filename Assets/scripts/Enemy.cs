@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour
 
     public float shootTime;
     private float shootTimer = 0;
-    private bool canShoot;
     public LineRenderer line;
 
     public LayerMask playerLayer;
@@ -29,7 +28,6 @@ public class Enemy : MonoBehaviour
 
     private void Shooting()
     {
-        ShootTime();
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, playerLayer);
 
         if (hit.collider != null )
@@ -37,6 +35,7 @@ public class Enemy : MonoBehaviour
             if (hit.collider.gameObject.CompareTag("Player"))
             {
                 Destroy(hit.collider.gameObject);
+                FindObjectOfType<GameFlowController>().EndGame();
             }
 
             line.SetPosition(0,transform.position  );
@@ -45,19 +44,6 @@ public class Enemy : MonoBehaviour
             //GameObject bullet = Instantiate(gunShoot, tip);
             //bullet.transform.parent = null;
             //canShoot = false;
-        }
-
-        //Debug.DrawRay(transform.position, Vector2.down * 10f, Color.red);
-    }
-
-    private void ShootTime()
-    {
-        if(shootTimer < shootTime)
-            shootTimer += Time.deltaTime;
-        else
-        {
-            shootTimer = 0;
-            canShoot = true;
         }
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -22,6 +20,12 @@ public class GameFlowController : MonoBehaviour
 
     private void Start()
     {
+        normalPanel.SetActive(true);
+        endPanel.SetActive(false);
+
+        if (FindObjectOfType<DontDestroyScript>())
+            Difficulty = FindObjectOfType<DontDestroyScript>().GameMode;
+
         if (Difficulty == 1)
         {
             increaseSpeedBy = 0.03f;
