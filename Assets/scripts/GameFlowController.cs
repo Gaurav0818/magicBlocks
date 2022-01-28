@@ -60,7 +60,7 @@ public class GameFlowController : MonoBehaviour
     {
         endPanel.SetActive(true);
         normalPanel.SetActive(false);
-
+        Destroy(GameObject.Find("DontDestroy"));
         endText.text = score.ToString();
     }
 
