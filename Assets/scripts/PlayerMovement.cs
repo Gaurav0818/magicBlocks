@@ -14,7 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded;
 
-    public Transform groundCheck;
+    public Transform groundCheck_1;
+    public Transform groundCheck_2;
     public float checkRadius;
     public LayerMask WhatisGround;
 
@@ -45,7 +46,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, WhatisGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck_1.position, checkRadius, WhatisGround);
+
+        if (!isGrounded)
+            isGrounded = Physics2D.OverlapCircle(groundCheck_2.position, checkRadius, WhatisGround);
 
         moveInput = Input.GetAxis("Horizontal");
 
