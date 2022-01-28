@@ -6,7 +6,8 @@ public class EnemyTrigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<Enemy>().ChangeDir();
+        if(collision.CompareTag("Enemy"))
+            collision.gameObject.GetComponent<Enemy>().ChangeDir();
     }
 
 }

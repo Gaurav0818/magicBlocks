@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -10,25 +7,23 @@ public class Enemy : MonoBehaviour
 
     public GameObject gunShoot;
     public Transform tip;
+    public float speedMultiplyer = 1;
 
     public float shootTime;
     private float shootTimer = 0;
     private bool canShoot;
+    public LineRenderer line;
 
     public LayerMask playerLayer;
 
-    private Rigidbody2D rb;
-
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         dir = transform.right;
     }
 
     private void Update()
-    {
-        
-        transform.position = transform.position + speed * dir * Time.deltaTime;
+    {   
+        transform.position = transform.position + speed * speedMultiplyer * dir * Time.deltaTime;
         Shooting();
     }
 
@@ -37,15 +32,22 @@ public class Enemy : MonoBehaviour
         ShootTime();
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, playerLayer);
 
-        if (hit.collider != null && canShoot)
+        if (hit.collider != null )
         {
-            GameObject bullet = Instantiate(gunShoot, tip);
-            bullet.transform.parent = null;
-            canShoot = false;
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+
+            line.SetPosition(0,transform.position  );
+            line.SetPosition(1, hit.point  );
+
+            //GameObject bullet = Instantiate(gunShoot, tip);
+            //bullet.transform.parent = null;
+            //canShoot = false;
         }
 
-        Debug.DrawRay(transform.position, Vector2.down * 10f, Color.red);
-
+        //Debug.DrawRay(transform.position, Vector2.down * 10f, Color.red);
     }
 
     private void ShootTime()
@@ -63,8 +65,4 @@ public class Enemy : MonoBehaviour
     {
         dir *= -1; 
     }
-
-
-
-
 }
